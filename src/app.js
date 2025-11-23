@@ -2,7 +2,8 @@ import "dotenv/config";
 import cors from "cors";
 import express from "express";
 import { sequelize } from "./models/index.js";
-import {userController} from "./controllers/index.js"
+import { userController, followerController } from "./controllers/index.js"
+import authMiddleware from "./middleware/authMiddleware.js"
 const app = express();
 app.set("trust proxy", true);
 
@@ -26,6 +27,7 @@ app.get("/", (req, res)=>{
     res.status(200).json({message: "Server Ok!"})
 })
 app.use("/user", userController)
+app.use("/follower", authMiddleware, followerController) // Protege as rotas de follower com autenticação
 
 sequelize.sync({force: true}).then(async () => {
     app.listen(8080,()=>{

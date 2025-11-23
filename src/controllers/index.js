@@ -1,5 +1,7 @@
 import userController from "./userControllers.js"
+import followerController from "./followerControllers.js"
 
 export {
-    userController
+    userController,
+    followerController
 }
