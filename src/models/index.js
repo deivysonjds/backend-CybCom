@@ -1,6 +1,7 @@
 import Sequelize from "sequelize";
 import pg from "pg"
 import getUserModel from "./user.js";
+import getNotificationModel from "./notification.js";
 import getTokensModel from "./tokens.js";
 import "dotenv/config";
 
@@ -22,7 +23,8 @@ const sequelize = new Sequelize(process.env.POSTGRES_URL, {
 
 const models = {
   Token: getTokensModel(sequelize, Sequelize),
-  User: getUserModel(sequelize, Sequelize)
+  User: getUserModel(sequelize, Sequelize),
+  Notification: getNotificationModel(sequelize, Sequelize)
 };
 
 Object.keys(models).forEach((key) => {
