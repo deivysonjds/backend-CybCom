@@ -31,7 +31,22 @@ const getUserModel = (sequelize, { DataTypes }) => {
   });
 
   User.associate = (models) => {
-    // associações serão feitas aqui
+    models.User.hasMany(models.Token, {
+      foreignKey: "userId",
+      onDelete: "CASCADE",
+    });
+
+    User.belongsToMany(models.User, {
+      through: models.Follower,
+      as: 'Following',
+      foreignKey: 'follower_id',
+    });
+
+    User.belongsToMany(models.User, {
+      through: models.Follower,
+      as: 'Followers',
+      foreignKey: 'following_id',
+    });
   };
 
   User.findByLogin = async (login) => {

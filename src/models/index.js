@@ -1,9 +1,11 @@
 import Sequelize from "sequelize";
-import pg from "pg"
+import pg from "pg";
 import getUserModel from "./user.js";
 import getNotificationModel from "./notification.js";
 import getTokensModel from "./tokens.js";
+import getFollowerModel from "./follower.js";
 import "dotenv/config";
+import getCommentModel from "./comment.js";
 
 //POSTGRES_URL
 const sequelize = new Sequelize(process.env.POSTGRES_URL, {
@@ -18,13 +20,15 @@ const sequelize = new Sequelize(process.env.POSTGRES_URL, {
     },
   },
   dialectModule: pg,
-  logging: console.log
+  logging: console.log,
 });
 
 const models = {
   Token: getTokensModel(sequelize, Sequelize),
   User: getUserModel(sequelize, Sequelize),
-  Notification: getNotificationModel(sequelize, Sequelize)
+  Notification: getNotificationModel(sequelize, Sequelize),
+  Follower: getFollowerModel(sequelize, Sequelize),
+  Comment: getCommentModel(sequelize, Sequelize),
 };
 
 Object.keys(models).forEach((key) => {
