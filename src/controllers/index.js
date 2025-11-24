@@ -3,5 +3,6 @@ import followerController from "./followerControllers.js"
 
 export {
     userController,
-    followerController
+    followerController,
+    commentController
 }
