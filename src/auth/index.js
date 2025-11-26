@@ -10,6 +10,6 @@ const router = Router();
 router.use("/auth", signIn);
 router.use("/auth", signUp);
 router.use("/auth",authMiddleware ,logout);
-router.use("/auth",refresh);
+router.use("/auth",authMiddleware,refresh);
 
 export default router;
