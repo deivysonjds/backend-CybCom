@@ -9,7 +9,7 @@ const app = express();
 app.set("trust proxy", true);
 
 var corsOptions = {
-  origin: ["http://example.com", "*"],
+  origin: ["http://localhost:3000", "*"],
   optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
@@ -28,7 +28,7 @@ app.get("/", (req, res)=>{
     res.status(200).json({message: "Server Ok!"})
 })
 
-app.user('/', authController)
+app.use('/', authController)
 app.use("/user",authMiddleware,userController)
 app.use("/follower", authMiddleware, followerController)
 app.use("/comments",authMiddleware, commentController);
