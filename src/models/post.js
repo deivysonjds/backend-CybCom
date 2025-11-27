@@ -1,7 +1,6 @@
 // src/models/Post.js
-const { DataTypes } = require('sequelize');
 
-module.exports = (sequelize) => {
+const getPostModel = (sequelize, {DataTypes}) => {
     const Post = sequelize.define('Post', {
         id: {
             type: DataTypes.INTEGER,
@@ -58,3 +57,5 @@ module.exports = (sequelize) => {
 
     return Post;
 };
+
+export default getPostModel;

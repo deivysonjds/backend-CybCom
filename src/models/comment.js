@@ -12,7 +12,6 @@ const getCommentModel = (sequelize, { DataTypes }) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          notEmpty,
           len: [1, 500],
         },
       },

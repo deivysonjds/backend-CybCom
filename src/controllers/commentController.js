@@ -1,5 +1,5 @@
 import { Router } from "express";
-import commentService from "../services/commentService.js";
+import commentService from "../service/commentService.js";
 import authMiddleware from "../middleware/authMiddleware.js"; // Aproveitando seu middleware existente
 
 const router = Router();
