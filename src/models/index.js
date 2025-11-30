@@ -8,6 +8,7 @@ import "dotenv/config";
 import getCommentModel from "./comment.js";
 import getPostModel from "./post.js";
 import getCategoryModel from "./category.js";
+import getLikeModel from "./like.js";
 
 //POSTGRES_URL
 const sequelize = new Sequelize(process.env.POSTEGRES_URL, {
@@ -32,7 +33,8 @@ const models = {
   Follower: getFollowerModel(sequelize, Sequelize),
   Comment: getCommentModel(sequelize, Sequelize),
   Post: getPostModel(sequelize, Sequelize),
-  Category: getCategoryModel(sequelize, Sequelize)
+  Category: getCategoryModel(sequelize, Sequelize),
+  Like: getLikeModel(sequelize, Sequelize)
 };
 
 Object.keys(models).forEach((key) => {

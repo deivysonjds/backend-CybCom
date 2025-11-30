@@ -7,7 +7,7 @@ import "dotenv/config"
 const router = Router();
 
 router.post("/signin", async (req, res) => {
-    const { email, senha } = req.body;
+    const { email, password } = req.body;
 
     try {
         let user = await models.User.findByLogin(email);
@@ -16,7 +16,7 @@ router.post("/signin", async (req, res) => {
             return res.status(404).json({ message: "credenciais inválidas" });
         }
 
-        let isValid = await argon2d.verify(user.senha, senha, {
+        let isValid = await argon2d.verify(user.password, password, {
             secret: Buffer.from(process.env.PEPPER_SECRET)
         });
 
@@ -28,7 +28,7 @@ router.post("/signin", async (req, res) => {
 
         return res.status(200).json(tokens);
     } catch (error) {
-        return res.status(500).json({ message: "Erro interno no servidor : " +error.message});
+        return res.status(500).json({ message: "Erro interno no servidor : " + error.message });
     }
 });
 

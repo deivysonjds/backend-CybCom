@@ -1,6 +1,6 @@
 // src/models/Post.js
 
-const getPostModel = (sequelize, {DataTypes}) => {
+const getPostModel = (sequelize, { DataTypes }) => {
     const Post = sequelize.define('Post', {
         id: {
             type: DataTypes.INTEGER,
@@ -14,7 +14,7 @@ const getPostModel = (sequelize, {DataTypes}) => {
         },
         content: {
             // Geralmente usamos TEXT para conteúdo longo
-            type: DataTypes.TEXT, 
+            type: DataTypes.TEXT,
             allowNull: false,
         },
         image_url: {
@@ -22,12 +22,12 @@ const getPostModel = (sequelize, {DataTypes}) => {
             allowNull: true, // Opcional
         },
         // Chave Estrangeira para o Autor (uuid)
-        userId: { 
+        userId: {
             type: DataTypes.UUID,
             allowNull: false,
         },
         // Chave Estrangeira para a Categoria (int)
-        categoryId: { 
+        categoryId: {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
@@ -40,10 +40,12 @@ const getPostModel = (sequelize, {DataTypes}) => {
     // Definição das Associações (Relacionamentos)
     Post.associate = (models) => {
         // Um Post pertence a um Autor (User)
-        Post.belongsTo(models.User, { foreignKey: 'userId', as: 'user' }); 
-        
+        Post.belongsTo(models.User, { foreignKey: 'userId', as: 'user' });
+
         // Um Post pertence a uma Categoria
-        Post.belongsTo(models.Category, { foreignKey: 'categoryId', as: 'category' }); 
+        Post.belongsTo(models.Category, { foreignKey: 'categoryId', as: 'category' });
+
+        Post.hasMany(models.Like, { foreignKey: 'postId', as: 'likes' });
     };
 
     return Post;
