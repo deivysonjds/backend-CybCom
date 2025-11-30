@@ -2,7 +2,7 @@
   "name": "backend-cybcom",
   "version": "1.0.0",
   "description": "back-end para projeto da residência take-off do porto digital",
-  "main": "index.js",
+  "main": "src/app.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
