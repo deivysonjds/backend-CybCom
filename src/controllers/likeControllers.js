@@ -1,6 +1,6 @@
 import { Router } from "express";
 import authMiddleware from "../middleware/authMiddleware.js";
-import likeService from "../services/likeService.js";
+import likeService from "../service/likeService.js";
 
 const router = Router();
 

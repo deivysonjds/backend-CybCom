@@ -1,6 +1,5 @@
 import { Router } from "express";
 import models from "../models/index.js";
-import authMiddleware from "../middleware/authMiddleware.js";
 
 const router = Router();
 const Category = models.Category; 
@@ -26,7 +25,7 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-router.post("/", authMiddleware, async (req, res) => {
+router.post("/", async (req, res) => {
     try {
         const { name, slug, description } = req.body;
         
@@ -48,7 +47,7 @@ router.post("/", authMiddleware, async (req, res) => {
     }
 });
 
-router.put("/:id", authMiddleware, async (req, res) => {
+router.put("/:id", async (req, res) => {
     try {
         const { name, slug, description } = req.body;
         const category = await Category.findByPk(req.params.id);
@@ -75,7 +74,7 @@ router.put("/:id", authMiddleware, async (req, res) => {
     }
 });
 
-router.delete("/:id", authMiddleware, async (req, res) => {
+router.delete("/:id", async (req, res) => {
     try {
         const result = await Category.destroy({
             where: { id: req.params.id },

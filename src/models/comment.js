@@ -19,12 +19,10 @@ const getCommentModel = (sequelize, { DataTypes }) => {
       postId: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        field: "post_id",
       },
       userId: {
         type: DataTypes.UUID,
         allowNull: false,
-        field: "user_id",
       },
     },
     {
@@ -36,7 +34,7 @@ const getCommentModel = (sequelize, { DataTypes }) => {
   Comment.associate = (models) => {
     Comment.belongsTo(models.User, {
       foreignKey: "userId",
-      as: "author",
+      as: "user",
     });
 
     Comment.belongsTo(models.Post, {

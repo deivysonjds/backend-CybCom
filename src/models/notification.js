@@ -6,7 +6,7 @@ const getNotificationModel = (sequelize, { DataTypes }) => {
             autoIncrement: true,
             allowNull: false,
         },
-        user_id: {
+        userId: {
             type: DataTypes.UUID,
             allowNull: false,
             references: {
@@ -30,7 +30,7 @@ const getNotificationModel = (sequelize, { DataTypes }) => {
 
     Notification.associate = (models) => {
         Notification.belongsTo(models.User, {
-            foreignKey: 'user_id',
+            foreignKey: 'userId',
             as: 'user'
         });
     };

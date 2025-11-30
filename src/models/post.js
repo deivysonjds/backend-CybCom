@@ -22,23 +22,14 @@ const getPostModel = (sequelize, {DataTypes}) => {
             allowNull: true, // Opcional
         },
         // Chave Estrangeira para o Autor (uuid)
-        author_id: { 
+        userId: { 
             type: DataTypes.UUID,
             allowNull: false,
-            // Adicione a referência aqui se estiver configurando o modelo User
-            // references: {
-            //     model: 'Users', // Nome da tabela de usuários
-            //     key: 'id',
-            // }
         },
         // Chave Estrangeira para a Categoria (int)
-        category_id: { 
+        categoryId: { 
             type: DataTypes.INTEGER,
             allowNull: false,
-            // references: {
-            //     model: 'Categories', // Nome da tabela de categorias
-            //     key: 'id',
-            // }
         },
         // O Sequelize adiciona createdAt e updatedAt por padrão
     }, {
@@ -49,10 +40,10 @@ const getPostModel = (sequelize, {DataTypes}) => {
     // Definição das Associações (Relacionamentos)
     Post.associate = (models) => {
         // Um Post pertence a um Autor (User)
-        Post.belongsTo(models.User, { foreignKey: 'author_id', as: 'author' }); 
+        Post.belongsTo(models.User, { foreignKey: 'userId', as: 'user' }); 
         
         // Um Post pertence a uma Categoria
-        Post.belongsTo(models.Category, { foreignKey: 'category_id', as: 'category' }); 
+        Post.belongsTo(models.Category, { foreignKey: 'categoryId', as: 'category' }); 
     };
 
     return Post;
