@@ -19,12 +19,10 @@ const getCommentModel = (sequelize, { DataTypes }) => {
       postId: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        field: "post_id",
       },
       userId: {
         type: DataTypes.UUID,
         allowNull: false,
-        field: "user_id",
       },
     },
     {

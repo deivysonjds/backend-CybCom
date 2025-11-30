@@ -43,14 +43,14 @@ const getUserModel = (sequelize, { DataTypes }) => {
 
     User.belongsToMany(models.User, {
       through: models.Follower,
-      as: 'Following',
-      foreignKey: 'follower_id',
+      as: 'followers',
+      foreignKey: 'followerId',
     });
 
     User.belongsToMany(models.User, {
       through: models.Follower,
-      as: 'Followers',
-      foreignKey: 'following_id',
+      as: 'followers',
+      foreignKey: 'followingId',
     });
   };
 

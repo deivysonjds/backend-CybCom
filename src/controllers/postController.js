@@ -1,11 +1,12 @@
 import { Router } from "express";
 import postService from '../service/postService.js'
+import isResourceOwner from '../middleware/resourceOwnerMiddleware.js'
 
 const router = Router();
 
 router.post("/",async (req, res)=> {
         try {
-            const userId = req.user?.id || req.userId;
+            const userId = req.user
 
             const newPost = await postService.createPost({
                 title: req.body.title,
@@ -21,7 +22,7 @@ router.post("/",async (req, res)=> {
         }
     })
 
-router.get("/:id", async (req, res)=> {
+router.get("/:id",isResourceOwner('posts'), async (req, res)=> {
         try {
             const post = await postService.getPostById(req.params.id);
 
@@ -35,7 +36,7 @@ router.get("/:id", async (req, res)=> {
         }
     })
 
-router.put("/:id",async(req, res)=>{
+router.put("/:id",isResourceOwner('posts'),async(req, res)=>{
         try {
             const userId = req.user?.id || req.userId;
 
@@ -59,7 +60,7 @@ router.put("/:id",async(req, res)=>{
         }
     })
 
-router.delete("/:id",async(req, res)=>{
+router.delete("/:id",isResourceOwner('posts'),async(req, res)=>{
         try {
             const userId = req.user?.id || req.userId;
 

@@ -8,7 +8,7 @@ const getFollowerModel = (sequelize, { DataTypes }) => {
       allowNull: false,
     },
     // Chave estrangeira para o usuário que está seguindo (o seguidor)
-    follower_id: {
+    followerId: {
       type: DataTypes.UUID,
       allowNull: false,
       references: {
@@ -18,7 +18,7 @@ const getFollowerModel = (sequelize, { DataTypes }) => {
       onDelete: "CASCADE", // Se o usuário for deletado, a entrada de seguidor é deletada
     },
     // Chave estrangeira para o usuário que está sendo seguido (o seguindo)
-    following_id: {
+    followingId: {
       type: DataTypes.UUID,
       allowNull: false,
       references: {
@@ -32,7 +32,7 @@ const getFollowerModel = (sequelize, { DataTypes }) => {
     indexes: [
       {
         unique: true,
-        fields: ['follower_id', 'following_id']
+        fields: ['followerId', 'followingId']
       }
     ]
   });
