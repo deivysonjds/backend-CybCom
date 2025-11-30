@@ -49,7 +49,7 @@ const getPostModel = (sequelize, {DataTypes}) => {
     // Definição das Associações (Relacionamentos)
     Post.associate = (models) => {
         // Um Post pertence a um Autor (User)
-        Post.belongsTo(models.User, { foreignKey: 'author_id', as: 'author' }); 
+        Post.belongsTo(models.User, { foreignKey: 'author_id', as: 'user' }); 
         
         // Um Post pertence a uma Categoria
         Post.belongsTo(models.Category, { foreignKey: 'category_id', as: 'category' }); 

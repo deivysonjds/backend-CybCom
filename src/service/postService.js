@@ -1,25 +1,24 @@
 // src/service/postService.js
 // Importe seus modelos. (Assumindo que eles são exportados via models/index.js)
-const { Post, User, Category } = require('../models'); 
-const { Op } = require('sequelize'); // Útil para filtros, se usar Sequelize
+import models from '../models/index.js'
 
-class PostService {
+const PostService = {
 
     // 1. Lógica para CRIAR um post
-    async createPost(postData) {
+    createPost: async (postData)=> {
         // ... (Implementação da validação de Author e Category e criação do Post)
         // ... (Código já fornecido na minha resposta anterior)
-    }
+    },
 
     // 2. Lógica para LER (Detalhe) um post
-    async getPostById(id) {
+    getPostById: async(id)=> {
         // ... (Implementação da busca do Post com JOINs para Author e Category)
         // ... (Código já fornecido na minha resposta anterior)
-    }
+    },
     
     // 3. Lógica para ATUALIZAR um post (Novo)
-    async updatePost(id, updateData, userId) {
-        const post = await Post.findByPk(id);
+    updatePost: async(id, updateData, userId) =>{
+        const post = await models.Post.findByPk(id);
         if (!post) {
             throw new Error('Post not found.');
         }
@@ -31,7 +30,7 @@ class PostService {
 
         // Se houver category_id na atualização, valide se a categoria existe.
         if (updateData.category_id) {
-             const categoryExists = await Category.findByPk(updateData.category_id);
+             const categoryExists = await models.Category.findByPk(updateData.category_id);
              if (!categoryExists) {
                 throw new Error('Category not found.');
              }
@@ -39,11 +38,11 @@ class PostService {
 
         await post.update(updateData);
         return post;
-    }
+    },
 
     // 4. Lógica para DELETAR um post (Novo)
-    async deletePost(id, userId) {
-        const post = await Post.findByPk(id);
+    deletePost: async(id, userId)=>{
+        const post = await models.Post.findByPk(id);
         if (!post) {
             throw new Error('Post not found.');
         }
@@ -60,4 +59,4 @@ class PostService {
     // Você também pode adicionar a lógica de listar todos os posts (getAllPosts) aqui.
 }
 
-module.exports = new PostService();
+export default PostService

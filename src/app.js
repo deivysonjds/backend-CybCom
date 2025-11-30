@@ -3,7 +3,15 @@ import cors from "cors";
 import express from "express";
 import { sequelize } from "./models/index.js";
 import authController from './auth/index.js'
-import { userController, followerController, commentController, notificationController } from "./controllers/index.js"
+import { 
+	userController, 
+	followerController, 
+	commentController, 
+	notificationController,
+	postController,
+	likeController,
+	categoryController
+} from "./controllers/index.js"
 import authMiddleware from "./middleware/authMiddleware.js"
 const app = express();
 app.set("trust proxy", true);
@@ -29,10 +37,13 @@ app.get("/", (req, res)=>{
 })
 
 app.use('/', authController)
-app.use("/user",authMiddleware,userController)
-app.use("/follower", authMiddleware, followerController)
+app.use("/users",authMiddleware,userController)
+app.use("/followers", authMiddleware, followerController)
 app.use("/comments",authMiddleware, commentController);
-app.use('/notification',authMiddleware, notificationController)
+app.use('/notifications',authMiddleware, notificationController)
+app.use('/posts',authMiddleware, postController)
+app.use('/likes',authMiddleware, likeController)
+app.use('/categories',authMiddleware, categoryController)
 
 sequelize.sync({ force: true }).then(async () => {
   app.listen(8080, () => {

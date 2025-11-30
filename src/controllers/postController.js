@@ -1,7 +1,9 @@
-const postService = require('../service/postService');
+import { Router } from "express";
+import postService from '../service/postService.js'
 
-class PostController {
-    async createPost(req, res) {
+const router = Router();
+
+router.post("/",async (req, res)=> {
         try {
             const userId = req.user?.id || req.userId;
 
@@ -17,9 +19,9 @@ class PostController {
         } catch (error) {
             return res.status(400).json({ error: error.message });
         }
-    }
+    })
 
-    async getPostById(req, res) {
+router.get("/:id", async (req, res)=> {
         try {
             const post = await postService.getPostById(req.params.id);
 
@@ -31,9 +33,9 @@ class PostController {
         } catch (error) {
             return res.status(500).json({ error: error.message });
         }
-    }
+    })
 
-    async updatePost(req, res) {
+router.put("/:id",async(req, res)=>{
         try {
             const userId = req.user?.id || req.userId;
 
@@ -49,19 +51,15 @@ class PostController {
                 return res.status(404).json({ error: error.message });
             }
 
-            if (error.message.startsWith('Unauthorized')) {
-                return res.status(403).json({ error: error.message });
-            }
-
             if (error.message === 'Category not found.') {
                 return res.status(400).json({ error: error.message });
             }
 
             return res.status(500).json({ error: error.message });
         }
-    }
+    })
 
-    async deletePost(req, res) {
+router.delete("/:id",async(req, res)=>{
         try {
             const userId = req.user?.id || req.userId;
 
@@ -73,13 +71,8 @@ class PostController {
                 return res.status(404).json({ error: error.message });
             }
 
-            if (error.message.startsWith('Unauthorized')) {
-                return res.status(403).json({ error: error.message });
-            }
-
             return res.status(500).json({ error: error.message });
         }
-    }
-}
+    })
 
-module.exports = new PostController();
+export default router;
