@@ -5,10 +5,10 @@ import authMiddleware from "../middleware/authMiddleware.js"; // Aproveitando se
 const router = Router();
 
 // Criar comentário
-router.post("/", authMiddleware, async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     // O authMiddleware popula req.user (geralmente com o ID do payload do token)
-    const userId = req.user.id;
+    const userId = req.user;
     const { postId, content } = req.body;
 
     const comment = await commentService.createComment(userId, postId, content);
@@ -30,7 +30,7 @@ router.get("/post/:postId", async (req, res) => {
 });
 
 // Deletar comentário
-router.delete("/:id", authMiddleware, async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
     const commentId = req.params.id;
     const userId = req.user.id;

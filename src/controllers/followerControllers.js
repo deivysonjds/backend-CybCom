@@ -7,7 +7,7 @@ const router = Router();
 // Rota 1: Seguir um usuário (POST /follower/:followingId)
 router.post("/:followingId", async (req, res) => {
     // req.user.id é o ID do usuário que está logado (o seguidor), fornecido pelo authMiddleware
-    const followerId = req.user.id; 
+    const followerId = req.user; 
     const followingId = req.params.followingId;
 
     try {
@@ -21,7 +21,7 @@ router.post("/:followingId", async (req, res) => {
 
 // Rota 2: Deixar de seguir um usuário (DELETE /follower/:followingId)
 router.delete("/:followingId", async (req, res) => {
-    const followerId = req.user.id;
+    const followerId = req.user;
     const followingId = req.params.followingId;
 
     try {

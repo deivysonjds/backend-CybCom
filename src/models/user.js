@@ -26,12 +26,12 @@ const getUserModel = (sequelize, { DataTypes }) => {
       allowNull: false,
     },
     bio: {
-        type: DataTypes.STRING,
-        allowNull: true,
+      type: DataTypes.STRING,
+      allowNull: true,
     },
     avatar: {
-        type: DataTypes.STRING,
-        allowNull: true
+      type: DataTypes.STRING,
+      allowNull: true
     }
   });
 
@@ -44,13 +44,16 @@ const getUserModel = (sequelize, { DataTypes }) => {
     User.belongsToMany(models.User, {
       through: models.Follower,
       as: 'followers',
-      foreignKey: 'followerId',
+      foreignKey: 'followingId',  
+      otherKey: 'followerId',      
     });
 
+    // Quem este usuário segue
     User.belongsToMany(models.User, {
       through: models.Follower,
-      as: 'followers',
-      foreignKey: 'followingId',
+      as: 'following',
+      foreignKey: 'followerId',     
+      otherKey: 'followingId',      
     });
   };
 
