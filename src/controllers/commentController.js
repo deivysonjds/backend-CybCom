@@ -8,7 +8,7 @@ const router = Router();
 router.post("/", async (req, res) => {
   try {
     // O authMiddleware popula req.user (geralmente com o ID do payload do token)
-    const userId = req.user;
+    const userId = req.user.id;
     const { postId, content } = req.body;
 
     const comment = await commentService.createComment(userId, postId, content);
