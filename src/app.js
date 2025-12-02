@@ -13,11 +13,12 @@ import {
   categoryController
 } from "./controllers/index.js"
 import authMiddleware from "./middleware/authMiddleware.js"
+import seedDatabase from "./seed/seedDatabase.js";
 const app = express();
 app.set("trust proxy", true);
 
 var corsOptions = {
-  origin: ["http://localhost:3000", "*"],
+  origin: ["http://localhost:3000", process.env.URL_FRONTEND],
   optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
@@ -44,7 +45,15 @@ app.use('/posts', authMiddleware, postController)
 app.use('/likes', authMiddleware, likeController)
 app.use('/categories', authMiddleware, categoryController)
 
-sequelize.sync({ alter: true }).then(async () => {
+let eraseDatabase = process.env.ERASE_DB === "true"
+
+sequelize.sync({ force: eraseDatabase }).then(async () => {
+
+  if(eraseDatabase){
+    seedDatabase()
+  }
+
+
   app.listen(8080, () => {
     console.log(`Server is running in http://localhost:8080`);
   });

@@ -17,7 +17,7 @@ const getPostModel = (sequelize, { DataTypes }) => {
             type: DataTypes.TEXT,
             allowNull: false,
         },
-        image_url: {
+        imagUrl: {
             type: DataTypes.STRING,
             allowNull: true, // Opcional
         },

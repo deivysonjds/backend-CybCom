@@ -3,16 +3,17 @@ import { v4 } from "uuid";
 import models from "../models/index.js";
 import jwt from "jsonwebtoken";
 
-export default async function createToken(dados) {
+export default async function createToken({userId}) {
   const id = v4();
 
-  const token_acess = jwt.sign(dados, process.env.SECRET_ACESS, { expiresIn: process.env.SECRET_ACESS_EXPIRES });
+  const token_acess = jwt.sign({userId: userId}, process.env.SECRET_ACESS, { expiresIn: process.env.SECRET_ACESS_EXPIRES });
 
-  const token_refresh = jwt.sign({ id: id }, process.env.SECRET_REFRESH, { expiresIn: process.env.SECRET_REFRESH_EXPIRES });
+  const token_refresh = jwt.sign({ id: id, userId: userId }, process.env.SECRET_REFRESH, { expiresIn: process.env.SECRET_REFRESH_EXPIRES });
 
   try {
     await models.Token.create({
       tokenId: id,
+      userId: userId
     });
   } catch (error) {
     throw new Error(`Error: ${error.message}`);

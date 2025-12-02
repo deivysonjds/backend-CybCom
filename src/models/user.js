@@ -1,3 +1,7 @@
+import argon2, { argon2id } from "argon2"
+import "dotenv/config"
+import { validate } from "uuid";
+
 const getUserModel = (sequelize, { DataTypes }) => {
   const User = sequelize.define("user", {
     id: {
@@ -25,6 +29,18 @@ const getUserModel = (sequelize, { DataTypes }) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    website: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    linkedin: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    github: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     bio: {
       type: DataTypes.STRING,
       allowNull: true,
@@ -34,7 +50,12 @@ const getUserModel = (sequelize, { DataTypes }) => {
       allowNull: true
     }
   });
-
+  User.beforeCreate(async (user)=>{
+    user.password = await argon2.hash(user.password, {
+            type: argon2id,
+            secret: Buffer.from(process.env.PEPPER_SECRET)
+        })
+  })
   User.associate = (models) => {
     models.User.hasMany(models.Token, {
       foreignKey: "userId",

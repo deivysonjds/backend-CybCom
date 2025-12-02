@@ -2,7 +2,7 @@ import Sequelize from "sequelize";
 import pg from "pg";
 import getUserModel from "./user.js";
 import getNotificationModel from "./notification.js";
-import getTokensModel from "./tokens.js";
+import getTokensModel from "./token.js";
 import getFollowerModel from "./follower.js";
 import "dotenv/config";
 import getCommentModel from "./comment.js";

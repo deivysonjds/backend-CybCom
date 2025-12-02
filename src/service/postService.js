@@ -66,15 +66,10 @@ const PostService = {
             throw new Error('Post not found.');
         }
 
-        // Validação de Autorização: Apenas o autor pode atualizar
-        if (post.userId !== userId) {
-            throw new Error('Unauthorized. Only the post author can update.');
-        }
-
-        // Se houver categoryId na atualização, valida se a categoria existe
-        if (updateData.categoryId) {
-            const categoryExists = await models.Category.findByPk(updateData.categoryId);
-            if (!categoryExists) {
+        // Se houver category_id na atualização, valide se a categoria existe.
+        if (updateData.category_id) {
+             const categoryExists = await models.Category.findByPk(updateData.category_id);
+             if (!categoryExists) {
                 throw new Error('Category not found.');
             }
         }
@@ -88,11 +83,6 @@ const PostService = {
         const post = await models.Post.findByPk(id);
         if (!post) {
             throw new Error('Post not found.');
-        }
-
-        // Validação de Autorização: Apenas o autor pode deletar
-        if (post.userId !== userId) {
-            throw new Error('Unauthorized. Only the post author can delete.');
         }
 
         await post.destroy();

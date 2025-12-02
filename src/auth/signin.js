@@ -24,7 +24,7 @@ router.post("/signin", async (req, res) => {
             return res.status(401).json({ message: "credenciais inválidas" });
         }
 
-        let tokens = await createToken({ id: user.id });
+        let tokens = await createToken({ userId: user.id });
 
         return res.status(200).json(tokens);
     } catch (error) {
