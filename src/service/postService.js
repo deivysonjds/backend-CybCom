@@ -6,14 +6,20 @@ const PostService = {
 
     // 1. Lógica para CRIAR um post
     createPost: async (postData)=> {
-        // ... (Implementação da validação de Author e Category e criação do Post)
-        // ... (Código já fornecido na minha resposta anterior)
+        let post = await models.Post.create({
+            postData
+        })
+        
+        return post
     },
 
     // 2. Lógica para LER (Detalhe) um post
     getPostById: async(id)=> {
-        // ... (Implementação da busca do Post com JOINs para Author e Category)
-        // ... (Código já fornecido na minha resposta anterior)
+        let post = await models.Post.findByPk(id)
+        if (!post) {
+            throw new Error("Post not found")
+        }
+        return post
     },
     
     // 3. Lógica para ATUALIZAR um post (Novo)
@@ -21,11 +27,6 @@ const PostService = {
         const post = await models.Post.findByPk(id);
         if (!post) {
             throw new Error('Post not found.');
-        }
-
-        // Validação de Autorização: Apenas o autor pode atualizar o post
-        if (post.author_id !== userId) {
-            throw new Error('Unauthorized. Only the post author can update.');
         }
 
         // Se houver category_id na atualização, valide se a categoria existe.
@@ -45,11 +46,6 @@ const PostService = {
         const post = await models.Post.findByPk(id);
         if (!post) {
             throw new Error('Post not found.');
-        }
-        
-        // Validação de Autorização: Apenas o autor pode deletar o post
-        if (post.author_id !== userId) {
-            throw new Error('Unauthorized. Only the post author can delete.');
         }
 
         await post.destroy();
