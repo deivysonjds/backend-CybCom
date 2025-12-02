@@ -1,34 +1,77 @@
-// src/service/postService.js
-// Importe seus modelos. (Assumindo que eles são exportados via models/index.js)
-import models from '../models/index.js'
+import models from '../models/index.js';
 
 const PostService = {
 
-    // 1. Lógica para CRIAR um post
+    // POST
     createPost: async (postData) => {
-        // ... (Implementação da validação de Author e Category e criação do Post)
-        // ... (Código já fornecido na minha resposta anterior)
+        // Verifica se a categoria existe antes de criar o post
+        const categoryExists = await models.Category.findByPk(postData.categoryId);
+        if (!categoryExists) {
+            throw new Error('Category not found.');
+        }
+
+        // Cria o post
+        const newPost = await models.Post.create(postData);
+        return newPost;
     },
 
-    // 2. Lógica para LER (Detalhe) um post
+    // GET (Detalhe)
     getPostById: async (id) => {
-        // ... (Implementação da busca do Post com JOINs para Author e Category)
-        // ... (Código já fornecido na minha resposta anterior)
+        const post = await models.Post.findByPk(id, {
+            include: [
+                {
+                    model: models.User,
+                    as: 'user', // Alias definido no models/post.js
+                    attributes: ['id', 'name', 'email', 'avatar'] // Retorna apenas dados seguros
+                },
+                {
+                    model: models.Category,
+                    as: 'category',
+                    attributes: ['id', 'name']
+                }
+            ]
+        });
+
+        return post;
     },
 
-    // 3. Lógica para ATUALIZAR um post (Novo)
+    // GET (Lista)
+    getAllPosts: async () => {
+        const posts = await models.Post.findAll({
+            order: [['createdAt', 'DESC']], // Ordena do mais recente para o mais antigo
+            include: [
+                {
+                    model: models.User,
+                    as: 'user',
+                    attributes: ['id', 'name', 'username', 'avatar'] // Garanta que 'username' ou 'name' existam no seu model User
+                },
+                {
+                    model: models.Category,
+                    as: 'category',
+                    attributes: ['id', 'name']
+                },
+                {
+                    model: models.Like, // Para saber quantos likes tem (opcional, mas útil)
+                    as: 'likes'
+                }
+            ]
+        });
+        return posts;
+    },
+
+    // PUT
     updatePost: async (id, updateData, userId) => {
         const post = await models.Post.findByPk(id);
         if (!post) {
             throw new Error('Post not found.');
         }
 
-        // Validação de Autorização: Apenas o autor pode atualizar o post
+        // Validação de Autorização: Apenas o autor pode atualizar
         if (post.userId !== userId) {
             throw new Error('Unauthorized. Only the post author can update.');
         }
 
-        // Se houver categoryId na atualização, valide se a categoria existe.
+        // Se houver categoryId na atualização, valida se a categoria existe
         if (updateData.categoryId) {
             const categoryExists = await models.Category.findByPk(updateData.categoryId);
             if (!categoryExists) {
@@ -40,14 +83,14 @@ const PostService = {
         return post;
     },
 
-    // 4. Lógica para DELETAR um post (Novo)
+    // DELETE
     deletePost: async (id, userId) => {
         const post = await models.Post.findByPk(id);
         if (!post) {
             throw new Error('Post not found.');
         }
 
-        // Validação de Autorização: Apenas o autor pode deletar o post
+        // Validação de Autorização: Apenas o autor pode deletar
         if (post.userId !== userId) {
             throw new Error('Unauthorized. Only the post author can delete.');
         }
@@ -55,8 +98,6 @@ const PostService = {
         await post.destroy();
         return { message: 'Post deleted successfully.' };
     }
+};
 
-    // Você também pode adicionar a lógica de listar todos os posts (getAllPosts) aqui.
-}
-
-export default PostService
+export default PostService;
