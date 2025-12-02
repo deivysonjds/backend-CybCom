@@ -36,6 +36,15 @@ router.get("/:id", isResourceOwner('posts'), async (req, res) => {
     }
 })
 
+router.get("/", async (req, res) => {
+    try {
+        const posts = await postService.getAllPosts(); 
+        return res.json(posts);
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+});
+
 router.put("/:id", isResourceOwner('posts'), async (req, res) => {
     try {
         const userId = req.user?.id || req.userId;
