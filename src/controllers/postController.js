@@ -22,7 +22,7 @@ router.post("/", async (req, res) => {
     }
 })
 
-router.get("/:id", isResourceOwner('posts'), async (req, res) => {
+router.get("/:id", isResourceOwner('Post'), async (req, res) => {
     try {
         const post = await postService.getPostById(req.params.id);
 
@@ -39,7 +39,7 @@ router.get("/:id", isResourceOwner('posts'), async (req, res) => {
 router.get("/", async (req, res) => {
     try {
         const posts = await postService.getAllPosts(); 
-        return res.json(posts);
+        return res.status(200).json(posts);
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }
