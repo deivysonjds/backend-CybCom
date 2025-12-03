@@ -1,6 +1,5 @@
 import argon2, { argon2id } from "argon2"
 import "dotenv/config"
-import { validate } from "uuid";
 
 const getUserModel = (sequelize, { DataTypes }) => {
   const User = sequelize.define("user", {
@@ -69,17 +68,11 @@ const getUserModel = (sequelize, { DataTypes }) => {
       otherKey: 'followerId',
     });
 
-    // Quem este usuário segue
     User.belongsToMany(models.User, {
       through: models.Follower,
       as: 'following',
       foreignKey: 'followerId',
       otherKey: 'followingId',
-    });
-
-    User.hasMany(models.Like, {
-      foreignKey: "userId",
-      as: "likes",
     });
   };
 

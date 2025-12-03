@@ -34,10 +34,20 @@ export default async function seedDatabase(){
         password: "senha123"
     })
 
+    await models.Follower.create({
+        followerId: user2.id,
+        followingId: user1.id
+    })
+
     let user3 = await models.User.create({
         name: "Matheus",
         email: "user3@gmail.com",
         password: "senha123"
+    })
+
+    await models.Follower.create({
+        followerId: user3.id,
+        followingId: user1.id
     })
 
 

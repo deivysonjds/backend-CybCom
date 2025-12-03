@@ -14,11 +14,12 @@ import {
 } from "./controllers/index.js"
 import authMiddleware from "./middleware/authMiddleware.js"
 import seedDatabase from "./seed/seedDatabase.js";
+import 'dotenv/config'
 const app = express();
 app.set("trust proxy", true);
 
 var corsOptions = {
-  origin: ["http://localhost:3000", process.env.URL_FRONTEND],
+  origin: ["http://localhost:3000",'*app.github.dev', process.env.URL_FRONTEND],
   optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
@@ -47,16 +48,20 @@ app.use('/categories', authMiddleware, categoryController)
 
 let eraseDatabase = process.env.ERASE_DB === "true"
 
-sequelize.sync({ force: eraseDatabase }).then(async () => {
-
-  if(eraseDatabase){
+if (eraseDatabase){
+  sequelize.sync({ force: true }).then(async () => {
+  
     seedDatabase()
-  }
-
-
-  app.listen(8080, () => {
-    console.log(`Server is running in http://localhost:8080`);
+  
+    app.listen(8080, () => {
+      console.log(`Server is running in http://localhost:8080`);
+    });
   });
-});
+
+} else {
+  app.listen(8080, () => {
+      console.log(`Server is running in http://localhost:8080`);
+  });
+}
 
 export default app;
