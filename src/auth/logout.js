@@ -17,7 +17,7 @@ router.post("/logout", async (req, res) => {
     try {
         const decoded = jwt.verify(token, process.env.SECRET_REFRESH); 
         const id = decoded.id;  
-
+        console.log(id)
         await models.Token.destroy({
             where: {
                 tokenId: id
