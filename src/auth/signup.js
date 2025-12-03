@@ -1,58 +1,52 @@
 import { Router } from "express";
 import models from "../models/index.js";
-import argon2, { argon2id } from "argon2"
 
-const router = Router()
+const router = Router();
 
 router.post("/signup", async (req, res) => {
     try {
-        const { email, password, username } = req.body
+        let { email, password, username } = req.body;
 
-        // 1. Validação de campos vazios
+        // Limpeza de espaços (boa prática)
+        if (email) email = email.trim();
+        if (username) username = username.trim();
+
+        // 1. Validação básica
         if (!email || !password || !username) {
-            return res.status(400).json({ message: "Preencha todos os campos (Nome, Email e Senha)!" })
+            return res.status(400).json({ message: "Preencha todos os campos!" });
         }
 
-        // 2. VERIFICAÇÃO DE EMAIL (Já existia)
+        // 2. Verificações de duplicidade (Melhora a mensagem de erro pro usuário)
         const userByEmail = await models.User.findOne({ where: { email } });
         if (userByEmail) {
             return res.status(409).json({ message: "Este email já está cadastrado." });
         }
 
-        // 3. VERIFICAÇÃO DE USERNAME (NOVO CORRIGIDO)
-        // Precisamos verificar se o 'name' já existe no banco
         const userByName = await models.User.findOne({ where: { name: username } });
         if (userByName) {
-            return res.status(409).json({ message: "Este nome de usuário já está em uso. Escolha outro." });
+            return res.status(409).json({ message: "Este nome de usuário já está em uso." });
         }
 
-        // 4. Criptografia
-        let senhaHash = await argon2.hash(password, {
-            type: argon2id,
-            secret: Buffer.from(process.env.PEPPER_SECRET)
-        })
-
-        // 5. Criação
+        // 3. CRIAÇÃO (Passando senha PURA)
+        // O Model User.js vai pegar esse 'password' e fazer o hash no beforeCreate.
         let newUser = await models.User.create({
             email: email,
-            password: senhaHash,
-            name: username 
-        })
+            password: password, 
+            name: username
+        });
 
         return res.status(201).json(newUser);
 
     } catch (error) {
         console.error("Erro no cadastro:", error);
-        // Melhoria opcional: Se passar batido pelas verificações e o banco der erro,
-        // verificamos se é erro de "Unique Constraint"
+        
+        // Fallback: Se passar pelas verificações acima e o banco chiar
         if (error.name === 'SequelizeUniqueConstraintError') {
-             return res.status(409).json({ message: "Usuário ou Email já existem." });
+            return res.status(409).json({ message: "Usuário ou Email já existem." });
         }
 
-        return res.status(400).json({ 
-            message: "Erro ao criar conta. Tente novamente." 
-        });
+        return res.status(500).json({ message: "Erro interno: " + error.message });
     }
-})
+});
 
-export default router
+export default router;
