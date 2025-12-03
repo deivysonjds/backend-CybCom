@@ -10,7 +10,7 @@ const router = Router();
 
 router.use("/auth", signIn);
 router.use("/auth", signUp);
-router.use("/auth",authMiddleware,isResourceOwner("users"),logout);
-router.use("/auth",authMiddleware,isResourceOwner("users"),refresh);
+router.use("/auth",authMiddleware,isResourceOwner("User"),logout);
+router.use("/auth",authMiddleware,isResourceOwner("User"),refresh);
 
 export default router;

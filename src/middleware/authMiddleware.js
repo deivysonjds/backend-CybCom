@@ -11,12 +11,12 @@ export default function authMiddleware(req, res, next) {
 
   try {
     const decoded = jwt.verify(token, process.env.SECRET_ACESS);
-    req.user = decoded;
+    req.user = decoded.userId;
     next();
   } catch (err) {
     try {
       const decoded = jwt.verify(token, process.env.SECRET_REFRESH);
-    req.user = decoded;
+    req.user = decoded.userId;
     next();
     } catch (error) {
       return res.status(403).json({ error: 'não autorizado' });

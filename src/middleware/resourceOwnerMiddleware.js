@@ -1,7 +1,8 @@
-
+import models from "../models/index.js";
 
 const isResourceOwner = (resourceModel) => async (req, res, next) => {
-  const resource = await req.context.models[resourceModel].findByPk(
+  
+  const resource = await models[resourceModel].findByPk(
     req.user
   );
 
