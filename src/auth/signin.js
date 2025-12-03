@@ -27,8 +27,8 @@ router.post("/signin", async (req, res) => {
         let tokens = await createToken({ userId: user.id });
 
         return res.status(200).json(tokens);
-    } catch (error) {        
-        return res.status(500).json({ message: "Erro interno no servidor : " +error.message});
+    } catch (error) {
+        return res.status(500).json({ message: "Erro interno no servidor : " + error.message });
     }
 });
 

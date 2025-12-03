@@ -3,14 +3,14 @@ import cors from "cors";
 import express from "express";
 import { sequelize } from "./models/index.js";
 import authController from './auth/index.js'
-import { 
-	userController, 
-	followerController, 
-	commentController, 
-	notificationController,
-	postController,
-	likeController,
-	categoryController
+import {
+  userController,
+  followerController,
+  commentController,
+  notificationController,
+  postController,
+  likeController,
+  categoryController
 } from "./controllers/index.js"
 import authMiddleware from "./middleware/authMiddleware.js"
 import seedDatabase from "./seed/seedDatabase.js";
@@ -34,17 +34,17 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/", (req, res)=>{
-    res.status(200).json({message: "Server Ok!"})
+app.get("/", (req, res) => {
+  res.status(200).json({ message: "Server Ok!" })
 })
 app.use('/', authController)
-app.use("/users",authMiddleware,userController)
+app.use("/users", authMiddleware, userController)
 app.use("/followers", authMiddleware, followerController)
-app.use("/comments",authMiddleware, commentController);
-app.use('/notifications',authMiddleware, notificationController)
-app.use('/posts',authMiddleware, postController)
-app.use('/likes',authMiddleware, likeController)
-app.use('/categories',authMiddleware, categoryController)
+app.use("/comments", authMiddleware, commentController);
+app.use('/notifications', authMiddleware, notificationController)
+app.use('/posts', authMiddleware, postController)
+app.use('/likes', authMiddleware, likeController)
+app.use('/categories', authMiddleware, categoryController)
 
 let eraseDatabase = process.env.ERASE_DB === "true"
 
