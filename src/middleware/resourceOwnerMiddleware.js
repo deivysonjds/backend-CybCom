@@ -7,15 +7,15 @@ const isResourceOwner = (resourceModel) => async (req, res, next) => {
   );
 
   if (!resource) {
-    return res.sendStatus(404);
+    return res.status(404).json({error: 'Recurso não encontrado'});
   }
 
   if (resource.userId && resource.userId !== req.user) {
-    return res.status(403).send("Forbidden");
+    return res.status(403).json({error: 'Não autorizado'});
   }
 
   if (resourceModel === "User" && resource.id !== req.user) {
-    return res.status(403).send("Forbidden");
+    return res.status(403).send({error: 'Não autorizado'});
   }
 
   req.resource = resource; // Attach the resource to the request for later use

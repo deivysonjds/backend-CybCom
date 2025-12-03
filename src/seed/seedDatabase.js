@@ -49,6 +49,4 @@ export default async function seedDatabase(){
         followerId: user3.id,
         followingId: user1.id
     })
-
-
 }
