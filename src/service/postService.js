@@ -43,7 +43,7 @@ const PostService = {
                 {
                     model: models.User,
                     as: 'user',
-                    attributes: ['id', 'name', 'username', 'avatar'] // Garanta que 'username' ou 'name' existam no seu model User
+                    attributes: ['id', 'name', 'avatar'] // Garanta que 'username' ou 'name' existam no seu model User
                 },
                 {
                     model: models.Category,
