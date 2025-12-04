@@ -1,13 +1,10 @@
 import { Router } from "express";
 import commentService from "../service/commentService.js";
-import authMiddleware from "../middleware/authMiddleware.js"; // Aproveitando seu middleware existente
 
 const router = Router();
 
-// Criar comentário
 router.post("/", async (req, res) => {
   try {
-    // O authMiddleware popula req.user (geralmente com o ID do payload do token)
     const userId = req.user.id;
     const { postId, content } = req.body;
 
@@ -18,7 +15,21 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Listar comentários de um post
+router.get("/", async (req, res) => {
+  try {
+    const comments = await commentService.getAllComments();
+
+    if (!comments || comments.length === 0) {
+      return res.status(404).json({ message: "Nenhum comentário encontrado" });
+    }
+
+    return res.status(200).json(comments);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+});
+
+
 router.get("/post/:postId", async (req, res) => {
   try {
     const { postId } = req.params;
@@ -29,7 +40,7 @@ router.get("/post/:postId", async (req, res) => {
   }
 });
 
-// Deletar comentário
+
 router.delete("/:id", async (req, res) => {
   try {
     const commentId = req.params.id;
@@ -38,8 +49,6 @@ router.delete("/:id", async (req, res) => {
     await commentService.deleteComment(commentId, userId);
     return res.status(204).send(); // 204 No Content
   } catch (error) {
-    // Diferenciar erro de "não encontrado/permissão" (403/404) de erro de servidor (500)
-    // Para simplificar, retornamos 400 ou 403 aqui
     if (error.message.includes("permissão")) {
       return res.status(403).json({ error: error.message });
     }

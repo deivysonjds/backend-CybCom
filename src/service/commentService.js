@@ -25,11 +25,11 @@ class CommentService {
       include: [
         {
           model: models.User,
-          as: "author",
-          attributes: ["id", "name", "avatar"], // Trazemos apenas dados seguros, sem senha!
+          as: "user",
+          attributes: ["id", "name", "avatar"], 
         },
       ],
-      order: [["createdAt", "ASC"]], // Comentários mais antigos primeiro
+      order: [["createdAt", "ASC"]], 
     });
   }
 
@@ -38,7 +38,6 @@ class CommentService {
 
     if (!comment) throw new Error("Comentário não encontrado.");
 
-    // Regra de segurança: Apenas o dono do comentário pode deletar
     if (comment.userId !== userIdFromToken) {
       throw new Error("Você não tem permissão para deletar este comentário.");
     }
