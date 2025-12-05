@@ -8,7 +8,7 @@ const router = Router();
 router.post("/", async (req, res) => {
   try {
     // O authMiddleware popula req.user (geralmente com o ID do payload do token)
-    const userId = req.user.id;
+    const userId = req.user;
     const { postId, content } = req.body;
 
     const comment = await commentService.createComment(userId, postId, content);
@@ -19,7 +19,7 @@ router.post("/", async (req, res) => {
 });
 
 // Listar comentários de um post
-router.get("/:postId", async (req, res) => {
+router.get("/post/:postId", async (req, res) => {
   try {
     const { postId } = req.params;
     const comments = await commentService.getCommentsByPost(postId);
