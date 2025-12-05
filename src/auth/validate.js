@@ -13,11 +13,10 @@ router.post("/validate", async (req, res) => {
 
     try {
         const decoded = jwt.verify(token, process.env.SECRET_ACESS); 
-        const id = decoded.id;  
 
-        return res.status(200).json({ valid: true });
+        return res.status(200).json();
     } catch (err) {
-        return res.status(403).json({ valid: false });
+        return res.status(403).json();
     }
 });
 

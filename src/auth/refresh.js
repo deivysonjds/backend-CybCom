@@ -8,7 +8,7 @@ router.post("/refresh", async (req, res) => {
     const token = authHeader && authHeader.split(' ')[1];
 
     if (!token) {
-        return res.status(401).json({ message: 'não autorizado' });
+        return res.status(401).json({ message: 'não autorizado'});
     }
 
     try {

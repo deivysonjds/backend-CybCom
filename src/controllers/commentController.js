@@ -19,7 +19,7 @@ router.post("/", async (req, res) => {
 });
 
 // Listar comentários de um post
-router.get("/post/:postId", async (req, res) => {
+router.get("/:postId", async (req, res) => {
   try {
     const { postId } = req.params;
     const comments = await commentService.getCommentsByPost(postId);
