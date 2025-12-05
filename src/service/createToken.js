@@ -19,5 +19,5 @@ export default async function createToken({userId}) {
     throw new Error(`Error: ${error.message}`);
   }
 
-  return { refresh: token_refresh, acess: token_acess };
+  return { refresh: token_refresh, access: token_acess };
 }
