@@ -6,7 +6,7 @@ const router = Router();
 
 router.post("/", async (req, res) => {
     try {
-        const userId = req.user.id
+        const userId = req.user
 
         const newPost = await postService.createPost({
             title: req.body.title,
