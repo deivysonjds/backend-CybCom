@@ -9,3 +9,4 @@ Marília Albuquerque de Lima Ribeiro - 853764
 Matheus Kauã Gonçalves - 854175
 Deivyson José da Silva - 853749
 Louise Hanna Flammarion Souza da Silva - 853792
+Maria Eduarda Correia - 853789
