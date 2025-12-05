@@ -5,14 +5,14 @@ const router = Router();
 
 router.post("/signup", async (req, res) => {
     try {
-        let { email, password, username } = req.body;
+        let { email, password, name } = req.body;
 
         // Limpeza de espaços (boa prática)
         if (email) email = email.trim();
-        if (username) username = username.trim();
+        if (name) name = name.trim();
 
         // 1. Validação básica
-        if (!email || !password || !username) {
+        if (!email || !password || !name) {
             return res.status(400).json({ message: "Preencha todos os campos!" });
         }
 
@@ -22,7 +22,7 @@ router.post("/signup", async (req, res) => {
             return res.status(409).json({ message: "Este email já está cadastrado." });
         }
 
-        const userByName = await models.User.findOne({ where: { name: username } });
+        const userByName = await models.User.findOne({ where: { name: name } });
         if (userByName) {
             return res.status(409).json({ message: "Este nome de usuário já está em uso." });
         }
@@ -32,7 +32,7 @@ router.post("/signup", async (req, res) => {
         let newUser = await models.User.create({
             email: email,
             password: password, 
-            name: username
+            name: name
         });
 
         return res.status(201).json(newUser);
