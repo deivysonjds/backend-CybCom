@@ -17,7 +17,7 @@ router.post("/refresh", async (req, res) => {
 
         const token_acess = jwt.sign({id: id}, process.env.SECRET_ACESS, { expiresIn: process.env.SECRET_ACESS_EXPIRES }); 
 
-        return res.status(200).json({ acess: token_acess });
+        return res.status(200).json({ access: token_acess });
     } catch (err) {
         return res.status(403).json({ error: 'não autorizado' });
     }
