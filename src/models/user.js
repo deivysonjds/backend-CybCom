@@ -56,6 +56,9 @@ const getUserModel = (sequelize, { DataTypes }) => {
         })
   })
   User.associate = (models) => {
+    models.User.hasMany(models.Post), {
+      foreignKey: 'userId', as:'user'
+    }
     models.User.hasMany(models.Token, {
       foreignKey: "userId",
       onDelete: "CASCADE",
