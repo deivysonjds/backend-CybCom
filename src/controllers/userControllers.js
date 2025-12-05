@@ -4,14 +4,6 @@ import models from "../models/index.js";
 const router = Router();
 
 router.get("/", async (req, res) => {
-	const users = await models.User.findAll({
-		attributes: { exclude: ["password"] }
-	});
-
-	return res.status(200).json(users);
-});
-
-router.get("/", async (req, res) => {
 	const id = req.user;
 
 	const user = await models.User.findOne({
